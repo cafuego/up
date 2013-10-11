@@ -1,0 +1,44 @@
+<?php
+/**
+ * @file
+ * Provides API integration with the Jawbone UP.
+ */
+
+define ('UP_HOST', 'https://jawbone.com');
+define ('UP_API',  'https://jawbone.com/nudge');
+
+/**
+ * Implements hook_permission().
+ */
+function up_permission() {
+  return array(
+    'add up wristbands' => array(
+      'title' => t('Add UP wristbands'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function up_menu() {
+  $items['user/%user/edit/up'] = array(
+    'title' => 'Jawbone UP',
+    'page callback' => 'up_user_settings',
+    'page arguments' => array(1),
+    'access arguments' => array('add up wristbands'),
+    'weight' => 9,
+    'type' => MENU_LOCAL_TASK,
+  );
+  return $items;
+}
+
+/**
+ * Form builder that lists UP wristbands.
+ *
+ * @param object $account
+ *   * Optional user account.
+ */
+function up_user_settings($account = NULL) {
+  $up_wristbands = '';
+}
