@@ -1,0 +1,138 @@
+<?php
+/**
+ * @file
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function up_schema() {
+  $schema['up'] = array(
+    'description' => "Stores individual UP account information.",
+    'fields' => array(
+      'xid' => array(
+        'description' => "Unique identifier of the {up} account.",
+        'type' => 'varchar',
+        'not null' => TRUE,
+        'length' => 64,
+      ),
+      'uid' => array(
+        'description' => "The uid of the user who added this {up} account.",
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'name' => array(
+        'description' => "The full user name as provided by the UP API.",
+        'type' => 'varchar',
+        'length' => 255,
+      ),
+      'first_name' => array(
+        'description' => "The user's first name as provided by the UP API.",
+        'type' => 'varchar',
+        'length' => 255,
+      ),
+      'last_name' => array(
+        'description' => "The user's last name as provided by the UP API.",
+        'type' => 'varchar',
+        'length' => 255,
+      ),
+      'short_name' => array(
+        'description' => "The short user name as provided by the UP API.",
+        'type' => 'varchar',
+        'length' => 255,
+      ),
+      'image_url' => array(
+        'description' => "The url of the {up}'s profile image.",
+        'type' => 'varchar',
+        'length' => 255,
+      ),
+    ),
+    'primary key' => array('xid'),
+    'indexes' => array(
+      'uid' => array('uid'),
+    ),
+    'foreign keys' => array(
+      'uid' => array(
+        'table' => 'users',
+        'columns' => array('uid' => 'uid'),
+      ),
+    ),
+  );
+
+  $schema['up_ticks'] = array(
+    'description' => "Stores individual UP activities.",
+    'fields' => array(
+      'tid' => array(
+        'description' => "The unique {up_ticks} activity id."
+        'type' => 'serial',
+      ),
+      'xid' => array(
+        'description' => "Unique identifier of the {up} account for this {up_tick}.",
+        'type' => 'varchar',
+        'not null' => TRUE,
+        'length' => 64,
+      ),
+      'distance' => array(
+        'description' => "The distance covered in this {up_tick}.",
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'active_time' => array(
+        'description' => "The number of seconds this {up_tick} lasted.",
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'aerobic' => array(
+        'description' => "A flag indicating whether this was an aeropic {up_tick} acitivity or not.",
+        'type' => 'int',
+        'size' => 'tiny',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'calories' => array(
+        'description' => "The number of calories used (or consumed) in this {up_tick}.",
+        'type' => 'numeric',
+        'not null' => TRUE,
+        'default' => 0,
+        'precision' => 21,
+        'scale' => 11,
+      ),
+      'steps' => array(
+        'description' => "The number of steps in this {up_tick}.",
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'time' => array(
+        'description' => "The unix timestamp of this {up_tick}.",
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'speed' => array(
+        'description' => "The average speed during this {up_tick}.",
+        'type' => 'numeric',
+        'not null' => TRUE,
+        'default' => 0,
+        'precision' => 21,
+        'scale' => 11,
+      ),
+    ),
+    'primary key' => array('tid'),
+    'indexes' => array(
+      'xid' => array('xid')
+      'time' => array('time')
+    ),
+    'foreign keys' => array(
+      'xid' => array(
+        'table' => 'up',
+        'columns' => array('xid' => 'xid'),
+      ),
+    ),
+  );
+  return $schema;
+}
