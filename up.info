@@ -1,0 +1,3 @@
+name = Jawbone UP
+description = Pull your UP data into Drupal.
+core = 7.x
